@@ -1,0 +1,4 @@
+name: Journey 1.21.1
+version: '0.0.0'
+main: de.knacrack.journey.Journey
+api-version: '1.21'
