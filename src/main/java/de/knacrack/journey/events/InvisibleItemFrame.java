@@ -1,20 +1,21 @@
-package de.knacrack.journey.listener.list;
+package de.knacrack.journey.events;
 
-import de.knacrack.journey.listener.Listener;
-import de.knacrack.journey.listener.ListenerRegistry;
+import de.knacrack.journey.Journey;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 public class InvisibleItemFrame implements Listener {
 
     public InvisibleItemFrame() {
-        ListenerRegistry.getInstance().register(this);
+        Bukkit.getPluginManager().registerEvents(this, Journey.getInstance());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -31,16 +32,6 @@ public class InvisibleItemFrame implements Listener {
         event.setCancelled(true);
         itemFrame.setVisible(!itemFrame.isVisible());
         itemFrame.setFixed(!itemFrame.isFixed());
-    }
-
-    @Override
-    public String label() {
-        return getClass().getSimpleName();
-    }
-
-    @Override
-    public boolean enabled() {
-        return true;
     }
 
 }

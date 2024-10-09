@@ -1,4 +1,4 @@
-package de.knacrack.journey.util.uuid;
+package de.knacrack.journey.utility;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,12 +1,13 @@
-package de.knacrack.journey.listener.list;
+package de.knacrack.journey.events;
 
 import com.destroystokyo.paper.MaterialSetTag;
-import de.knacrack.journey.listener.Listener;
-import de.knacrack.journey.listener.ListenerRegistry;
+import de.knacrack.journey.Journey;
+import org.bukkit.Bukkit;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -17,10 +18,11 @@ import org.bukkit.inventory.meta.BannerMeta;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class LoomMaxLayers implements Listener {
 
     public LoomMaxLayers() {
-        ListenerRegistry.getInstance().register(this);
+        Bukkit.getPluginManager().registerEvents(this, Journey.getInstance());
     }
 
     private final HashMap<Player, List<Pattern>> playerBannerData = new HashMap<>();
@@ -51,7 +53,7 @@ public class LoomMaxLayers implements Listener {
                 }
                 case RESULT -> setNewPatternsToBanner(player, currentItem);
             }
-        } else if (cursorItem != null && MaterialSetTag.BANNERS.isTagged(cursorItem.getType())) {
+        } else if (MaterialSetTag.BANNERS.isTagged(cursorItem.getType())) {
             if (doesNewLayerExceedMaxLayers(cursorItem)) return;
             if (event.getSlotType().equals(InventoryType.SlotType.CRAFTING) && isPlaceAction(event.getAction())) {
                 saveBannerLayers(player, cursorItem);
@@ -76,7 +78,7 @@ public class LoomMaxLayers implements Listener {
         BannerMeta meta = (BannerMeta) banner.getItemMeta();
         List<Pattern> patterns = meta.getPatterns();
 
-        while (patterns.size() > 5) patterns.remove(0);
+        while (patterns.size() > 5) patterns.removeFirst();
         meta.setPatterns(patterns);
         banner.setItemMeta(meta);
     }
@@ -97,7 +99,7 @@ public class LoomMaxLayers implements Listener {
         BannerMeta meta = (BannerMeta) banner.getItemMeta();
 
         List<Pattern> newPatterns = meta.getPatterns();
-        oldPatterns.add(newPatterns.get(newPatterns.size() - 1));
+        oldPatterns.add(newPatterns.getLast());
 
         meta.setPatterns(oldPatterns);
         banner.setItemMeta(meta);
@@ -108,16 +110,6 @@ public class LoomMaxLayers implements Listener {
         BannerMeta meta = (BannerMeta) banner.getItemMeta();
         List<Pattern> patterns = meta.getPatterns();
         return patterns.size() == maxLayers;
-    }
-
-    @Override
-    public String label() {
-        return getClass().getSimpleName();
-    }
-
-    @Override
-    public boolean enabled() {
-        return true;
     }
 
 }

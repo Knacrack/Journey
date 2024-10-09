@@ -8,37 +8,31 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-public class FasterMinecard implements Listener {
+public class FasterMinecart implements Listener {
 
-    private Double MAX_SPEED = 0.4;
-    private Map blockMaxSpeeds = new HashMap<Material, Double>();
-    private Collection<Material> rails = Lists.newArrayList(Material.RAIL, Material.POWERED_RAIL, Material.DETECTOR_RAIL, Material.ACTIVATOR_RAIL);
+    private final Collection<Material> rails = Lists.newArrayList(Material.RAIL, Material.POWERED_RAIL, Material.DETECTOR_RAIL, Material.ACTIVATOR_RAIL);
 
-    public FasterMinecard() {
+    public FasterMinecart() {
         Bukkit.getPluginManager().registerEvents(this, Journey.getInstance());
     }
 
-    /*@EventHandler()
-    public void minecardMove(VehicleMoveEvent event) {
-        if (event.getVehicle() instanceof Minecart minecard && !minecard.isEmpty() && minecard.getPassengers().getFirst() instanceof Player player) {
-            @NotNull Material block = minecard.getLocation().getBlock().getType();
-            if (rails.contains(block)) {
-                minecard.setMaxSpeed(0.8);
-            }
-        }
-    }*/
-
     @EventHandler()
+    public void minecartEnter(VehicleCreateEvent event) {
+        if (event.getVehicle() instanceof Minecart minecard) {
+            minecard.setMaxSpeed(0.8);
+        }
+    }
+
+    /*@EventHandler()
     public void minecartEnter(VehicleEnterEvent event) {
-        if (event.getVehicle() instanceof Minecart minecard && event.getEntered() instanceof Player player) {
+        if (event.getVehicle() instanceof Minecart minecard && event.getEntered() instanceof Player) {
             @NotNull Material block = minecard.getLocation().getBlock().getType();
             if (rails.contains(block)) {
                 minecard.setMaxSpeed(0.8);
@@ -53,6 +47,6 @@ public class FasterMinecard implements Listener {
                 minecard.setMaxSpeed(0.4);
             }
         }
-    }
+    }*/
 
 }

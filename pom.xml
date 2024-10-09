@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.knacrack</groupId>
-    <artifactId>journey</artifactId>
+    <artifactId>Journey</artifactId>
     <version>0.0.0</version>
     <packaging>jar</packaging>
 
-    <name>journey</name>
+    <name>Journey</name>
 
     <properties>
         <java.version>21</java.version>

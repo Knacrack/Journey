@@ -1,4 +1,4 @@
-package de.knacrack.journey.util.uuid;
+package de.knacrack.journey.utility;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
