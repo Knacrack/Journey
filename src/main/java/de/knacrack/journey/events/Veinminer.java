@@ -2,10 +2,9 @@ package de.knacrack.journey.events;
 
 import de.knacrack.journey.Journey;
 import de.knacrack.journey.utility.BlockSearch;
-import de.knacrack.journey.utility.Utils;
+import de.knacrack.journey.utility.CustomEnchantment;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -56,7 +55,7 @@ public class Veinminer implements Listener {
         Block block = event.getBlock();
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (!item.containsEnchantment(Utils.getEnchantment(new NamespacedKey("knacrack", "veinminer")))) return;
+        if (CustomEnchantment.VEINMINER == null || !item.containsEnchantment(CustomEnchantment.VEINMINER)) return;
         if (player.isSneaking()) return;
         if (!ores.contains(block.getType())) return;
 
@@ -64,9 +63,12 @@ public class Veinminer implements Listener {
 
         for (int i = 0; i < list.size(); i++) {
             if (i >= 128) break;
-            list.get(i).getDrops(item).forEach(drop -> player.getWorld().dropItem(player.getLocation(), drop));
+            list.get(i).getDrops(item).forEach(drop -> player.getWorld().dropItemNaturally(player.getLocation(), drop));
             list.get(i).setType(Material.AIR);
         }
+        int exp = event.getExpToDrop() * (Math.min(list.size(), 128));
+        event.setExpToDrop(exp);
+        //((ExperienceOrb)player.getWorld().spawn(player.getLocation(), ExperienceOrb.class)).setExperience(exp);
         player.playSound(player.getLocation(), Sound.BLOCK_STONE_BREAK, 1f, 1f);
     }
 }

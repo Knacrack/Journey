@@ -18,7 +18,6 @@ import org.bukkit.inventory.meta.BannerMeta;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("FieldCanBeLocal")
 public class LoomMaxLayers implements Listener {
 
     public LoomMaxLayers() {
@@ -26,8 +25,6 @@ public class LoomMaxLayers implements Listener {
     }
 
     private final HashMap<Player, List<Pattern>> playerBannerData = new HashMap<>();
-
-    private final int maxLayers = 9;
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
@@ -109,6 +106,7 @@ public class LoomMaxLayers implements Listener {
     private boolean doesNewLayerExceedMaxLayers(ItemStack banner) {
         BannerMeta meta = (BannerMeta) banner.getItemMeta();
         List<Pattern> patterns = meta.getPatterns();
+        int maxLayers = 9;
         return patterns.size() == maxLayers;
     }
 

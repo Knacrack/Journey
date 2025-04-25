@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class PlayerHead {
 
-    @SuppressWarnings("unused")
     public static ItemStack getPlayerHead(String playerName) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta meta = (SkullMeta) head.getItemMeta();

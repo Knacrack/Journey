@@ -1,14 +1,14 @@
 package de.knacrack.journey.utility;
 
-import com.google.common.base.Preconditions;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
+import com.google.common.collect.Lists;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SuppressWarnings({"unused", "deprecation"})
 public class Utils {
@@ -53,18 +53,14 @@ public class Utils {
         return item;
     }
 
-    @SuppressWarnings("JavaExistingMethodCanBeUsed")
-    public static @NotNull Enchantment getEnchantment(@NotNull String key) {
-        NamespacedKey namespacedKey = new NamespacedKey("journey", key);
-        Enchantment enchantment = Registry.ENCHANTMENT.get(namespacedKey);
-        Preconditions.checkNotNull(enchantment, "No Enchantment found for %s. This is a bug.", namespacedKey);
-        return enchantment;
-    }
-    public static @NotNull Enchantment getEnchantment(@NotNull NamespacedKey key) {
+    public static final List<String> getOnlinePlayers(String argument) {
+        List<Player> players = Bukkit.getOnlinePlayers().stream().filter(player -> player.getName().startsWith(argument)).collect(Collectors.toList());
+        List<String> names = Lists.newArrayList();
 
-        Enchantment enchantment = Registry.ENCHANTMENT.get(key);
-        Preconditions.checkNotNull(enchantment, "No Enchantment found for %s. This is a bug.", key);
-        return enchantment;
+        if (!players.isEmpty()) {
+            players.forEach(player -> names.add(player.getName()));
+        }
+        return names;
     }
 
 }

@@ -1,10 +1,9 @@
 package de.knacrack.journey.events;
 
 import de.knacrack.journey.Journey;
-import de.knacrack.journey.utility.Utils;
+import de.knacrack.journey.utility.CustomEnchantment;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.TrialSpawner;
@@ -19,6 +18,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 
+@SuppressWarnings({"unused", "UnstableApiUsage"})
 public class SpawnerTouch implements Listener {
 
     public SpawnerTouch() {
@@ -29,7 +29,7 @@ public class SpawnerTouch implements Listener {
     public void onSpawnerTouch(BlockBreakEvent event) {
         Player player = event.getPlayer();
 
-        if (Material.SPAWNER.equals(event.getBlock().getType()) && player.getInventory().getItem(EquipmentSlot.HAND).getEnchantments().containsKey(Utils.getEnchantment(new NamespacedKey("knacrack", "spawner_touch")))) {
+        if (Material.SPAWNER.equals(event.getBlock().getType()) && player.getInventory().getItem(EquipmentSlot.HAND).getEnchantments().containsKey(CustomEnchantment.SPAWNER_TOUCH)) {
             event.setExpToDrop(0);
             ItemStack item = new ItemStack(Material.SPAWNER, 1);
             BlockStateMeta meta = (BlockStateMeta) item.getItemMeta();
@@ -39,10 +39,9 @@ public class SpawnerTouch implements Listener {
             if (type == null) return;
             cs.setSpawnedType(type);
             meta.setBlockState(cs);
-            //meta.displayName(Component.text("§c§l" + "Spawner (" + type.name().toLowerCase() + ")"));
             item.setItemMeta(meta);
             player.getWorld().dropItem(event.getBlock().getLocation().add(0, 1, 0), item);
-        } else if (Material.TRIAL_SPAWNER.equals(event.getBlock().getType()) && player.getInventory().getItem(EquipmentSlot.HAND).getEnchantments().containsKey(Utils.getEnchantment(new NamespacedKey("knacrack", "spawner_touch")))) {
+        } else if (Material.TRIAL_SPAWNER.equals(event.getBlock().getType()) && player.getInventory().getItem(EquipmentSlot.HAND).getEnchantments().containsKey(CustomEnchantment.SPAWNER_TOUCH)) {
             event.setExpToDrop(0);
 
             ItemStack item = new ItemStack(Material.TRIAL_SPAWNER, 1);
@@ -50,7 +49,6 @@ public class SpawnerTouch implements Listener {
             TrialSpawner ts = (TrialSpawner) meta.getBlockState();
 
             TrialSpawner state = (TrialSpawner) event.getBlock().getState();
-            if (state == null) return;
 
             EntityType spawnedType = state.getNormalConfiguration().getSpawnedType();
             EntityType spawnedTypeOminous = state.getOminousConfiguration().getSpawnedType();
@@ -58,7 +56,6 @@ public class SpawnerTouch implements Listener {
             ts.getNormalConfiguration().setSpawnedType(spawnedType);
             ts.getOminousConfiguration().setSpawnedType(spawnedTypeOminous);
             meta.setBlockState(ts);
-            //meta.setBlockState(state);
             item.setItemMeta(meta);
             player.getWorld().dropItem(event.getBlock().getLocation().add(0, 1, 0), item);
         }

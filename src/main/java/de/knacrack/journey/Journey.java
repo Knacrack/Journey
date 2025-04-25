@@ -1,5 +1,6 @@
 package de.knacrack.journey;
 
+import de.knacrack.journey.commands.*;
 import de.knacrack.journey.events.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Journey extends JavaPlugin {
 
     private static Journey instance;
+
 
     @Override
     public void onEnable() {
@@ -23,7 +25,10 @@ public final class Journey extends JavaPlugin {
         new InvisibleItemFrame();
         new ElytraBoost();
         new BreakSuspiciousBlocks();
+        new MobParticle();
         //new BreakBuddingAmethyst();
+
+
         new PlayerDeath();
         new PlayerJoin();
         new PlayerQuit();
@@ -31,6 +36,17 @@ public final class Journey extends JavaPlugin {
 
         new TreeChopper();
         new Veinminer();
+
+        new Heal();
+        new Invsee();
+        new Fly();
+        new Enderchest();
+        new Item();
+        new Anvil();
+        new Stonecutter();
+        new Workbench();
+        new Equip();
+        new ShareChest();
     }
 
     @Override

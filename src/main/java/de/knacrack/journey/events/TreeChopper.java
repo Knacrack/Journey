@@ -2,10 +2,9 @@ package de.knacrack.journey.events;
 
 import de.knacrack.journey.Journey;
 import de.knacrack.journey.utility.BlockSearch;
-import de.knacrack.journey.utility.Utils;
+import de.knacrack.journey.utility.CustomEnchantment;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -58,7 +57,7 @@ public class TreeChopper implements Listener {
         Block block = event.getBlock();
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (!item.containsEnchantment(Utils.getEnchantment(new NamespacedKey("knacrack", "tree_chopper")))) return;
+        if (CustomEnchantment.TREE_CHOPPER == null || !item.containsEnchantment(CustomEnchantment.TREE_CHOPPER)) return;
         if (player.isSneaking()) return;
         if (!logs.contains(block.getType())) return;
 

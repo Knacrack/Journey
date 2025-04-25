@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoin implements Listener {
 
-    @Deprecated
     public PlayerJoin() {
         Bukkit.getPluginManager().registerEvents(this, Journey.getInstance());
     }
@@ -28,10 +27,10 @@ public class PlayerJoin implements Listener {
         Component subtitle = Component.text(player.getName()).color(TextColor.color(Color.GREEN.asRGB()));
 
         if (player.hasPlayedBefore()) {
-            title = Component.text("§6Welcome back!");
+            title = MiniMessage.miniMessage().deserialize("<gold>Welcome back!");
             player.showTitle(Title.title(title, subtitle, Title.DEFAULT_TIMES));
         } else {
-            title = Component.text("§6Welcome on this Server!");
+            title = MiniMessage.miniMessage().deserialize("<gold>Welcome on this Server!");
             player.showTitle(Title.title(title, subtitle, Title.DEFAULT_TIMES));
         }
     }

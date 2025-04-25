@@ -1,5 +1,7 @@
 package de.knacrack.journey.events;
 
+import de.knacrack.journey.Journey;
+import de.knacrack.journey.utility.CustomEnchantment;
 import de.knacrack.journey.utility.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -13,27 +15,38 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ElytraBoost implements Listener {
 
+    public ElytraBoost() {
+        Bukkit.getPluginManager().registerEvents(this, Journey.getInstance());
+    }
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void on_player_toggle_sneak(PlayerToggleSneakEvent event) {
-        // Check sneaking, flying and having the enchantment
         final Player player = event.getPlayer();
-        if ((!event.isSneaking() || !player.isGliding()) && player.getInventory().getChestplate().containsEnchantment(Utils.getEnchantment(new NamespacedKey("knacrack","boost")))) {
-            return;
-        }
 
-        // Check cooldown
-        if (player.getCooldown(Material.ELYTRA) > 0) {
-            return;
-        }
+        if (player.getInventory().getChestplate() == null) return;
 
-        // Apply boost
-        player.setCooldown(Material.ELYTRA, 4000 / 50);
-        Utils.applyElytraBoost(player, 0.8d);
+        boolean isValidElytraBoost = event.isSneaking() && player.isGliding() && player.getInventory().getChestplate().containsEnchantment(CustomEnchantment.BOOST);
+        if (!isValidElytraBoost) return;
+
+        if (player.getCooldown(Material.ELYTRA) > 0) return;
+
+        applyElytraBoost(player);
+    }
+
+    private void applyElytraBoost(Player player) {
         if (!GameMode.CREATIVE.equals(player.getGameMode())) {
             Utils.adjustDurability(player.getEquipment().getChestplate(), (int) (1.0 + 2.0 * Math.random()), player);
+            player.setCooldown(Material.ELYTRA, 4000 / 50);
+            Utils.applyElytraBoost(player, 0.8d);
+        } else {
+            Utils.applyElytraBoost(player, 1d);
         }
 
-        // Spawn particles
+        spawnParticles(player);
+    }
+
+
+    private void spawnParticles(Player player) {
         final Location loc = player.getLocation();
         final double vel = player.getVelocity().length();
         for (int i = 0; i < 16; ++i) {
